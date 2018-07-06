@@ -1,0 +1,106 @@
+
+# solucion error Access-Control-Allow-Origin
+<FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
+  <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+</FilesMatch>
+
+
+RewriteEngine On
+
+Options -Indexes
+
+# ACTIVAR WWW PARA QUE FUNCIONE FANCYBOX
+#RewriteCond %{HTTP_HOST} ^elcanuto.com.uy [NC]
+#RewriteRule ^(.*)$ http://www.elcanuto.com.uy/$1 [R=301,L]
+
+#RedirectMatch 301 ^/beta(.*) http://www.elcanuto.com.uy$1
+
+
+#RewriteRule ^en/$		    				index.php?lg=en [NC,L]
+#RewriteRule ^fr/$		    				index.php?lg=fr [NC,L]
+#RewriteRule ^gr/$		    				index.php?lg=gr [NC,L]
+#RewriteRule ^it/$		    				index.php?lg=it [NC,L]
+#RewriteRule ^es/$		    				index.php?lg=es [NC,L]
+#RewriteRule ^ca/$		    				index.php?lg=ca [NC,L]
+#RewriteRule ^ne/$		    				index.php?lg=ne [NC,L]
+
+#Con este andan todos los idiomas
+#RewriteRule ^([a-zA-Z0-9_\-\.]+)/inicio$					?pg=inicio&lg=$1 [NC,L]
+
+
+
+
+
+RewriteRule ^inicio$					?p=inicio [NC,L]
+RewriteRule ^contacto$					?p=contacto [NC,L]
+RewriteRule ^articulo$		    		?p=articulo [NC,L]
+RewriteRule ^tabs$		    			?p=tabs [NC,L]
+RewriteRule ^acordeon$		    		?p=acordeon [NC,L]
+RewriteRule ^tabla$		    			?p=tabla [NC,L]
+
+RewriteRule ^portfolio$					?pg=portfolio [NC,L]
+RewriteRule ^noticia/([0-9]+)/			?pg=noticias&id=$1 [NC,L]
+RewriteRule ^es/sala-de-medios/([a-zA-Z0-9_\-\.]+)/([0-9]+)/				?lg=es&pg=paginas&sec=6&id=$2 [NC,L]
+
+
+
+
+#ANCLAS
+RewriteRule ^publicaciones/([0-9]+)$	?pg=publicaciones&ancla=$1 [NC,L]
+
+#Minified
+RewriteRule ^css/responsive.css$		includes/minify.php?t=css&f=responsive [NC,L]
+RewriteRule ^css/styles.css$			includes/minify.php?t=css&f=styles [NC,L]
+
+#SITEMAP
+RewriteRule ^sitemap.xml$		    								sitemap.php [NC,L]
+
+
+
+#OPTIMIZAR
+
+<ifModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/xml text/css text/plain
+  AddOutputFilterByType DEFLATE image/svg+xml application/xhtml+xml application/xml
+  AddOutputFilterByType DEFLATE application/rdf+xml application/rss+xml application/atom+xml
+  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript application/json
+  AddOutputFilterByType DEFLATE application/x-font-ttf application/x-font-otf
+  AddOutputFilterByType DEFLATE font/truetype font/opentype
+</ifModule>
+
+## EXPIRES CACHING ##
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access 1 year"
+ExpiresByType image/jpeg "access 1 year"
+ExpiresByType image/gif "access 1 year"
+ExpiresByType image/png "access 1 year"
+ExpiresByType text/css "access 1 month"
+ExpiresByType text/html "access 1 month"
+ExpiresByType application/pdf "access 1 month"
+ExpiresByType text/x-javascript "access 1 month"
+ExpiresByType application/x-shockwave-flash "access 1 month"
+ExpiresByType image/x-icon "access 1 year"
+ExpiresDefault "access plus 1 month"
+</IfModule>
+## EXPIRES CACHING ##
+
+
+<ifModule mod_headers.c>
+  <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
+    Header set Cache-Control "public"
+  </filesMatch>
+  <filesMatch "\.(css)$">
+    Header set Cache-Control "public"
+  </filesMatch>
+  <filesMatch "\.(js)$">
+    Header set Cache-Control "private"
+  </filesMatch>
+  <filesMatch "\.(x?html?|php)$">
+    Header set Cache-Control "private, must-revalidate"
+  </filesMatch>
+</ifModule>
+
+
